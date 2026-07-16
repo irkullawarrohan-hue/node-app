@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShipIt — task pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="statusbar">
+    <div class="statusbar__left">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">All systems operational</span>
+    </div>
+    <div class="statusbar__right" id="statusCounts">0 tasks in flight</div>
+  </header>
+
+  <main class="board">
+    <div class="board__intro">
+      <h1>ShipIt<span class="cursor">_</span></h1>
+      <p>A pipeline for getting things done. Every task moves queued → running → shipped.</p>
+    </div>
+
+    <form class="composer" id="composer">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="describe the next task to queue…"
+        autocomplete="off"
+        maxlength="140"
+        required
+      />
+      <button type="submit">Queue it →</button>
+    </form>
+    <p class="composer__error" id="composerError" hidden></p>
+
+    <section class="columns">
+      <div class="column" data-stage="queued">
+        <div class="column__header">
+          <span class="column__light light--queued"></span>
+          <h2>Queued</h2>
+          <span class="column__count" id="count-queued">0</span>
+        </div>
+        <div class="column__body" id="col-queued"></div>
+      </div>
+
+      <div class="column" data-stage="running">
+        <div class="column__header">
+          <span class="column__light light--running"></span>
+          <h2>Running</h2>
+          <span class="column__count" id="count-running">0</span>
+        </div>
+        <div class="column__body" id="col-running"></div>
+      </div>
+
+      <div class="column" data-stage="shipped">
+        <div class="column__header">
+          <span class="column__light light--shipped"></span>
+          <h2>Shipped</h2>
+          <span class="column__count" id="count-shipped">0</span>
+        </div>
+        <div class="column__body" id="col-shipped"></div>
+      </div>
+    </section>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card">
+      <div class="card__meta"></div>
+      <p class="card__title"></p>
+      <div class="card__actions">
+        <button class="card__btn card__btn--back" title="Move back">↺</button>
+        <button class="card__btn card__btn--advance">Advance →</button>
+        <button class="card__btn card__btn--delete" title="Delete task">✕</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

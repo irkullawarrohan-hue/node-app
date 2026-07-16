@@ -1,0 +1,12 @@
+{
+  "name": "shipit-board",
+  "version": "1.0.0",
+  "description": "A small CI/CD-styled task board built with Node.js and Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

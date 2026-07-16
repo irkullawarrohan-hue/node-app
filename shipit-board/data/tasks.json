@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Write Terraform module for VPC",
+    "stage": "shipped",
+    "createdAt": "2026-07-14T09:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Set up GuardDuty auto-remediation Lambda",
+    "stage": "running",
+    "createdAt": "2026-07-15T10:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Tailor resume for Cloud Support role",
+    "stage": "queued",
+    "createdAt": "2026-07-16T08:15:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "rohan",
+    "stage": "queued",
+    "createdAt": "2026-07-16T10:12:09.873Z"
+  }
+]

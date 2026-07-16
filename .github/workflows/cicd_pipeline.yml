@@ -1,0 +1,60 @@
+name: cicd_pipleine
+
+on:
+  push:
+   branches:
+     - main
+
+env:
+   Image_name: node_app
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download source code
+        uses: actions/checkout@v4
+
+      - name: node setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installing dependencies
+        run: npm ci
+
+      - name: runing tests
+        run: npm test --if-present
+
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: login to Docker
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  
+      - name: build docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.Image_name }}:latest .
+
+
+      - name: push image to docker registry
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.Image_name }}:latest
+
+      - name: deploy to Ec2
+        uses: appleboy/ssh-action@v1
+        with:
+           host: ${{ secrets.HOST }}
+           username: ${{ secrets.USERNAME }}
+           password: ${{ secrets.PASSWORD }}
+           script: |
+               docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.Image_name }}:latest
+               docker stop node-js-app || true
+               docker rm node-js-app || true
+               docker run -d --name node-js-app -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.Image_name }}:latest
+        
