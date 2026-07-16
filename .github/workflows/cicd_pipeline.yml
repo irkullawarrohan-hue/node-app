@@ -33,6 +33,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: source code download
+        uses: actions/checkout@v4
+
       - name: login to Docker
         uses: docker/login-action@v4
         with:
@@ -51,7 +55,7 @@ jobs:
         with:
            host: ${{ secrets.HOST }}
            username: ${{ secrets.USERNAME }}
-           password: ${{ secrets.PASSWORD }}
+           key: ${{ secrets.key }}
            script: |
                docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.Image_name }}:latest
                docker stop node-js-app || true
